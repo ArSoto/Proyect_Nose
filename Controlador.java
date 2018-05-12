@@ -12,6 +12,8 @@ import java.util.Random;
             Contenedor robot = new Contenedor(1);
             boolean estado;
 
+            robot.setArmasArray();
+            robot.imprimirArmas(robot.b_der.getArma(), "derecho");
 
             robot.iniciarPista();
 
