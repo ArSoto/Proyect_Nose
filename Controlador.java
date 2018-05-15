@@ -15,17 +15,14 @@ import java.util.Random;
             robot.setArmasArray();
             robot.imprimirArmas(robot.b_der.getArma(), "derecho");
 
-            robot.iniciarPista();
+
 
 
 
             robot.getEstado();
             robot.setCambiar(1);
             int cont = 0;
-            do {
-               estado= robot.movimientosSuelo(cont);
 
-            }while (estado=true);
 
 
         }

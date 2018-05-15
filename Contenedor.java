@@ -1,14 +1,106 @@
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Contenedor {
     private int cambiar;
-    Random random = new Random();
-    Scanner scanner= new Scanner(System.in);
-
-    String boton;
+    private Random random = new Random();
+    private Scanner scanner= new Scanner(System.in);
 
 
+    private String boton;
+    private Armas armas;
+    private int tempInt;
+    private String tempString;
+    private ArrayList<Armas> armasArrayListDer, armasArrayListIzq;
+
+///////////////////////////////////////////////////////////////////
+
+    private void asignarArmas(){
+
+        b_der.setArma(setArmasArray());
+        b_izq.setArma(setArmasArray());
+
+        a_der.setArmas(setArmasArray());
+        a_der.setArmas(setArmasArray());
+
+    }
+
+    public void actualizarArmasAB(){
+
+        b_der.setArma(a_der.getArmas());
+        b_izq.setArma(a_izq.getArmas());
+
+    }
+
+    public void actualizarArmasBA(){
+        a_der.setArmas(b_der.getArma());
+        a_izq.setArmas(b_der.getArma());
+
+
+    }
+
+    private void Disparar(String Estado, Armas arma){
+
+        if (arma.getTipo().equals("Vacio")){
+            System.out.println("No posee arma asignada a ese boton");
+            return ;
+
+        }
+
+        if (arma.getBalas() < 0){
+            System.out.println("El arma " + arma.getTipo() + " no tiene municiones ");
+            return;
+
+        }
+
+
+        arma.setBalas(arma.getBalas()-1);  //resta una municion
+        System.out.println("Disparando...  municiones restante  " + arma.getBalas());
+
+    }
+
+
+
+    private Armas crearArmas(){           //Crea las armas de forma aleatoria, tanto el tipo como la cantidad de municiones
+
+            tempInt=random.nextInt(2)+1;
+
+            if (tempInt==1)
+                tempString= "Canion";
+            else
+                tempString="Laser";
+
+            armas= new Armas(random.nextInt(10)+1,tempString);
+
+            return armas;
+    }
+
+    public ArrayList<Armas> setArmasArray() {
+        ArrayList<Armas> armasArrayList = new ArrayList<Armas>();
+
+        tempInt = random.nextInt(2);
+        for (int i = 0; i < tempInt; i++){
+            armasArrayList.add(crearArmas());
+
+        }
+        return armasArrayList;
+
+    }
+
+    public void imprimirArmas(ArrayList<Armas> arrayList, String lado){
+
+        System.out.println("prueba de Armas");
+        Iterator<Armas> iteArrayList = arrayList.iterator();
+        while (iteArrayList.hasNext()){
+            Armas armas = iteArrayList.next();
+            System.out.println(" Lado \n"+ lado+ " Tipo " +armas.getTipo()+ "Municiones  "+armas.getBalas() );
+        }
+    }
+
+
+/////////////////////////////////////////////////////////////////
     public Contenedor(int cambiar) {
         this.cambiar = cambiar;
     }
@@ -18,15 +110,18 @@ public class Contenedor {
     }
 
 
+
     Panel_de_Control panel = new Panel_de_Control("Fighter",0,0,0);
     Cabeza c = new Cabeza(false);
-    Brazos b_der = new Brazos( 0,0,false); // 0: Estado fighter (ocultos)
-    Brazos b_izq = new Brazos( 0,0,false);
-    Alas a_der = new Alas(true);
-    Alas a_izq = new Alas(true);
+    Brazos b_der = new Brazos( 0,0,false, armasArrayListIzq); // 0: Estado fighter (ocultos)
+    Brazos b_izq = new Brazos( 0,0,false, armasArrayListDer);
+    Alas a_der = new Alas(true, armasArrayListDer);
+    Alas a_izq = new Alas(true, armasArrayListIzq);
     Piernas p_der = new Piernas(false, false,false);
     Piernas p_izq = new Piernas(false, false,false);
-    Armas laser= new Armas(10,"laser");
+
+
+
 
     public Panel_de_Control getPanel() {
         return panel;
@@ -164,7 +259,7 @@ public class Contenedor {
                 }
                 else {System.out.println("Imposible  desacelerar, ya ha alcanzado el minimo");break;}
 
-            case "j":laser.setLaser(panel.getEstado());break;
+       //
 
             case "p":return false;
 
