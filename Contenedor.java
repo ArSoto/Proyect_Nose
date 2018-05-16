@@ -1,14 +1,169 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Contenedor {
     private int cambiar;
-    Random random = new Random();
-    Scanner scanner= new Scanner(System.in);
-
-    String boton;
+    private Random random = new Random();
+    private Scanner scanner= new Scanner(System.in);
 
 
+    private String boton;
+    private int contBoton =0;
+    private Armas armas;
+    private int tempInt;
+    private String tempString;
+    private int[] contadorArmas = {0,0};
+    private ArrayList<Armas> armasArrayListDer, armasArrayListIzq;
+
+///////////////////////////////////////////////////////////////////
+    //asigna un array de Clase arma a las extremidades que puden utilizarlas
+
+    private void asignarArmas(){
+
+        b_der.setArma(setArmasArray());
+        b_izq.setArma(setArmasArray());
+
+        a_der.setArmas(setArmasArray());
+        a_der.setArmas(setArmasArray());
+
+    }
+// Cambio de armas de las alas a los brazos
+    public void actualizarArmasAB(){
+
+        b_der.setArma(a_der.getArmas());
+        b_izq.setArma(a_izq.getArmas());
+
+    }
+// cambio de Armas de los Brazos a las alas
+    public void actualizarArmasBA(){
+        a_der.setArmas(b_der.getArma());
+        a_izq.setArmas(b_der.getArma());
+
+
+    }
+// comprueba que el arma utilizada contiene municiones y de ser asi dispara
+    private void Disparar(String Estado, Armas arma){
+
+        if (!arma.isMostrar()){
+            System.out.println("No posee arma asignada a ese boton");
+            return ;
+
+        }
+
+        if (arma.getBalas() < 0){
+            System.out.println("El arma " + arma.getTipo() + " no tiene municiones ");
+            return;
+
+        }
+
+
+        arma.setBalas(arma.getBalas()-1);  //resta una municion
+        System.out.println("Disparando...  municiones restante  " + arma.getBalas());
+
+    }
+
+
+
+
+    private void armaBattloid (ArrayList<Armas> izq, ArrayList<Armas> der){
+        
+        if (contadorArmas[0] == 0){
+            System.out.println("El Robot no posee ningun cañon que pueda utilizar");
+            return;
+        }
+
+        imprimirCaniones(der, izq);
+
+        switch (scanner.nextLine()){
+
+            case "u":{
+
+            }
+        }
+        
+
+
+
+
+
+    }
+
+
+    private Armas crearArmas(){           //Crea las armas de forma aleatoria, tanto el tipo como la cantidad de municiones
+
+            tempInt=random.nextInt(2)+1;
+            String botones[] ={"u","i","o","p"};
+
+            if (tempInt==1) {
+
+                tempString = "Canion";
+                contadorArmas[0]++;
+            }
+            else{
+                tempString="Laser";
+                contadorArmas[1]++;
+            }
+
+
+            armas= new Armas(random.nextInt(10)+1,tempString, true, botones[contBoton++]);
+
+            return armas;
+    }
+
+    public ArrayList<Armas> setArmasArray() {
+        ArrayList<Armas> armasArrayList = new ArrayList<Armas>();
+
+        tempInt = random.nextInt(2);
+        for (int i = 0; i < tempInt; i++){
+            armasArrayList.add(crearArmas());
+
+        }
+        return armasArrayList;
+
+    }
+
+    public void imprimirArmas(ArrayList<Armas> arrayList, String lado){
+
+
+        System.out.println("prueba de Armas");
+        Iterator<Armas> iteArrayList = arrayList.iterator();
+        while (iteArrayList.hasNext()){
+            Armas armas = iteArrayList.next();
+            System.out.println(" Lado \n"+ lado+ " Tipo " +armas.getTipo()+ "Municiones  "+armas.getBalas() );
+        }
+    }
+
+    public void imprimirCaniones(ArrayList<Armas> arrayListDer, ArrayList<Armas> arrayListIzq){
+        
+        
+        Iterator<Armas> iteArrayListDer = arrayListDer.iterator();
+        Iterator<Armas> iteratorListIzq = arrayListIzq.iterator();
+        System.out.println("Elija el canion que desea ocupar en modo Battloid");
+
+        while (iteArrayListDer.hasNext()){
+            Armas armas = iteArrayListDer.next();
+
+
+            if(armas.getTipo().equals("Canion"))
+                System.out.println("[" + armas.getBoton() + "] Canion con "+ armas.getBalas());
+
+        }
+
+        while (iteArrayListDer.hasNext()){
+            Armas armas = iteArrayListDer.next();
+
+
+            if(armas.getTipo().equals("Canion"))
+                System.out.println("[" + armas.getBoton() + "] Canion con "+ armas.getBalas());
+
+        }
+    }
+
+
+/////////////////////////////////////////////////////////////////
     public Contenedor(int cambiar) {
         this.cambiar = cambiar;
     }
@@ -18,16 +173,18 @@ public class Contenedor {
     }
 
 
+
     Panel_de_Control panel = new Panel_de_Control("Fighter",0,0,0);
     Cabeza c = new Cabeza(false);
-    Brazos b_der = new Brazos( 0,0,false);
-    Brazos b_izq = new Brazos( 0,0,false);
-    Alas a_der = new Alas(true);
-    Alas a_izq = new Alas(true);
+    Brazos b_der = new Brazos( 0,0,false, armasArrayListIzq); // 0: Estado fighter (ocultos)
+    Brazos b_izq = new Brazos( 0,0,false, armasArrayListDer);
+    Alas a_der = new Alas(true, armasArrayListDer);
+    Alas a_izq = new Alas(true, armasArrayListIzq);
     Piernas p_der = new Piernas(false, false,false);
     Piernas p_izq = new Piernas(false, false,false);
-    Armas laser= new Armas(10,"laser");
-    Piernas anterior = new Piernas(true, false, false); //Va a tomar el mismo valor que boton al caminar
+
+
+
 
     public Panel_de_Control getPanel() {
         return panel;
@@ -99,72 +256,73 @@ public class Contenedor {
     }
 
 
-    public void Despegar(){ //?????????????????????????????????????????????
-        panel.setVelocidad(350);
-        panel.setAltura(100);
 
-    }
-
-    public boolean movimientosAire()
-    {
+    public boolean movimientosAire() {
 
         System.out.println("(a) giro derecha \t (d) giro izquerda \t (w) aumentar altura\t (s) disminuye altura \n" +
-                "(i) acelerar \t (k) desacelerar \t (j) disparar" );
+                "(i) acelerar \t (k) desacelerar \t (j) disparar");
 
-        boton=scanner.nextLine();
+        boton = scanner.nextLine();
 
-        switch (boton){
+        switch (boton) {
 
 
-            case "a": System.out.println("giro a la izquerda"); break;
+            case "a":
+                System.out.println("giro a la izquerda");
+                break;
 
-            case "d": System.out.println("giro a la derecha");break;
+            case "d":
+                System.out.println("giro a la derecha");
+                break;
 
-            case "w":{
-                if(panel.getAltura()<10000)
-                {
-                    panel.setAltura(panel.getAltura()+100);
-                    System.out.println("El avion aumenta su altura a " + panel.getAltura());break;
-                }
-                else System.out.println("El avion ya esta en su altura maxima de vuelo");break;
+            case "w": {
+                if (panel.getAltura() < 10000) {
+                    panel.setAltura(panel.getAltura() + 100);
+                    System.out.println("El avion aumenta su altura a " + panel.getAltura());
+                    break;
+                } else System.out.println("El avion ya esta en su altura maxima de vuelo");
+                break;
             }
 
             case "s": {
                 if (panel.getAltura() >= 21) {
-                    panel.setAltura(panel.getAltura() -20);
+                    panel.setAltura(panel.getAltura() - 20);
                     System.out.println("El avion disminuye su altura a " + panel.getAltura());
                     break;
                 } else System.out.println("El avion ya esta en su altura minima de vuelo");
                 break;
 
-                }
+            }
 
             case "i":
                 if (panel.getVelocidad() <= 750) {
-                panel.setVelocidad(panel.getVelocidad()+100);
-                System.out.println("velocidad"+ panel.getVelocidad()); break;
-                }
-                else System.out.println("Imposible  acelerar, ya ha alcanzado el maximo");break;
+                    panel.setVelocidad(panel.getVelocidad() + 100);
+                    System.out.println("velocidad" + panel.getVelocidad());
+                    break;
+                } else System.out.println("Imposible  acelerar, ya ha alcanzado el maximo");
+                break;
 
             case "k":
-                if (panel.getVelocidad() >=  100) {
-                    panel.setVelocidad(panel.getVelocidad()-100);
-                    System.out.println("velocidad"+ panel.getVelocidad()); break;
+                if (panel.getVelocidad() >= 100) {
+                    panel.setVelocidad(panel.getVelocidad() - 100);
+                    System.out.println("velocidad" + panel.getVelocidad());
+                    break;
+                } else {
+                    System.out.println("Imposible  desacelerar, ya ha alcanzado el minimo");
+                    break;
                 }
-                else {System.out.println("Imposible  desacelerar, ya ha alcanzado el minimo");break;}
 
-            case "j":laser.setLaser(panel.getEstado());break;
 
-            case "p":return false;
+            case "p":
+                return false;
 
         }
 
         return true;
     }
 
-    int cont = 0;
 
-    public boolean movimientosSuelo(int cont) {
+   /* public boolean movimientosSuelo(int cont) {
         //SOLO SE MUEVE HACIA ADELANTE
         if (cont == 0) {
             System.out.println("MENU DE OPCIONES CAMINAR EN MODO BATTLOID: Para avanzar presione cualquiera de las siguientes letras" +
@@ -214,10 +372,7 @@ public class Contenedor {
         getEstado();
         return true;
     }
+    } */
+
+
 }
-
-
-
-
-
-
