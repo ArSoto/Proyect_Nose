@@ -11,9 +11,15 @@ import java.util.Random;
 
             Contenedor robot = new Contenedor(1);
             boolean estado;
+            robot.asignarArmas();
 
-            robot.setArmasArray();
-            robot.imprimirArmas(robot.b_der.getArma(), "derecho");
+            robot.imprimirArmas(robot.b_der.getArma());
+            robot.imprimirArmas(robot.b_izq.getArma());
+
+            robot.armaBattloid(robot.b_izq.getArma(), robot.b_der.getArma());
+
+
+
 
 
 
