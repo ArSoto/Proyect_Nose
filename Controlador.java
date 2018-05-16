@@ -1,7 +1,5 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
-import java.util.Iterator;
 
     public class Controlador {
 
@@ -13,18 +11,23 @@ import java.util.Iterator;
 
             Contenedor robot = new Contenedor(1);
             boolean estado;
+            robot.asignarArmas();
+
+            robot.imprimirArmas(robot.b_der.getArma());
+            robot.imprimirArmas(robot.b_izq.getArma());
+
+            robot.armaBattloid(robot.b_izq.getArma(), robot.b_der.getArma());
 
 
-            //robot.setArmasArray();
-            //robot.imprimirArmas(robot.b_der.getArma(), "derecho");
+
+
+
+
+
 
             robot.getEstado();
-            robot.imprimirControl();
-            robot.setCambiar(2);
-
-            do{
-                robot.movimientosSuelo();
-            }while(true);
+            robot.setCambiar(1);
+            int cont = 0;
 
 
 
@@ -32,8 +35,8 @@ import java.util.Iterator;
 
 
 
-        ///COMPROBAR CAMBIO DE ESTADO
-        ///MODO CORRER: DESACTIVAR ARMAS
+
+
     }
 
 

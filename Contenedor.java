@@ -1,4 +1,6 @@
-import java.lang.reflect.Array;
+
+import com.sun.istack.internal.NotNull;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -21,13 +23,11 @@ public class Contenedor {
 ///////////////////////////////////////////////////////////////////
     //asigna un array de Clase arma a las extremidades que puden utilizarlas
 
-    private void asignarArmas(){
+    public void asignarArmas(){
 
         b_der.setArma(setArmasArray());
         b_izq.setArma(setArmasArray());
 
-        a_der.setArmas(setArmasArray());
-        a_der.setArmas(setArmasArray());
 
     }
 // Cambio de armas de las alas a los brazos
@@ -45,7 +45,7 @@ public class Contenedor {
 
     }
 // comprueba que el arma utilizada contiene municiones y de ser asi dispara
-    private void Disparar(String Estado, Armas arma){
+    private void Disparar(String Estado,  Armas arma){
 
         if (!arma.isMostrar()){
             System.out.println("No posee arma asignada a ese boton");
@@ -68,23 +68,28 @@ public class Contenedor {
 
 
 
-    private void armaBattloid (ArrayList<Armas> izq, ArrayList<Armas> der){
-        
+    public void armaBattloid (ArrayList<Armas> izq, ArrayList<Armas> der){
+
+        String letra;
         if (contadorArmas[0] == 0){
             System.out.println("El Robot no posee ningun cañon que pueda utilizar");
+            desactivarArmas(izq, der, null);
             return;
         }
 
-        imprimirCaniones(der, izq);
+        while (true) {
+            imprimirCaniones(der, izq);
+            letra = scanner.nextLine();
 
-        switch (scanner.nextLine()){
+            for (Armas i : izq) {
+                if (i.getBoton().equals(letra)) {
+                    if (i.getTipo().equals("Canion")) desactivarArmas(izq, der, letra);return;
 
-            case "u":{
+                }
 
             }
+            System.out.println("Tecla no valida");
         }
-        
-
 
 
 
@@ -94,15 +99,16 @@ public class Contenedor {
 
     private Armas crearArmas(){           //Crea las armas de forma aleatoria, tanto el tipo como la cantidad de municiones
 
-            tempInt=random.nextInt(2)+1;
-            String botones[] ={"u","i","o","p"};
+        int tempInt =random.nextInt(2)+1;
+        String botones[] ={"u","i","o","p"};
 
-            if (tempInt==1) {
+        if (tempInt==1) {
 
-                tempString = "Canion";
-                contadorArmas[0]++;
+            tempString = "Canion";
+            contadorArmas[0]++;
             }
-            else{
+            else
+                {
                 tempString="Laser";
                 contadorArmas[1]++;
             }
@@ -113,34 +119,38 @@ public class Contenedor {
             return armas;
     }
 
-    public ArrayList<Armas> setArmasArray() {
-        ArrayList<Armas> armasArrayList = new ArrayList<Armas>();
+    //Crea los arreglos para las armas
 
-        tempInt = random.nextInt(2);
+    private ArrayList<Armas> setArmasArray() {
+        ArrayList<Armas> armasArrayList12 = new ArrayList<>();
+        int tempInt;
+
+        tempInt =2 ; //random.nextInt(2)+1;
         for (int i = 0; i < tempInt; i++){
-            armasArrayList.add(crearArmas());
+            armasArrayList12.add(crearArmas());
 
         }
-        return armasArrayList;
+        return armasArrayList12;
 
     }
 
-    public void imprimirArmas(ArrayList<Armas> arrayList, String lado){
+
+    public void imprimirArmas(ArrayList<Armas> arrayList){
 
 
         System.out.println("prueba de Armas");
         Iterator<Armas> iteArrayList = arrayList.iterator();
         while (iteArrayList.hasNext()){
             Armas armas = iteArrayList.next();
-            System.out.println(" Lado \n"+ lado+ " Tipo " +armas.getTipo()+ "Municiones  "+armas.getBalas() );
+            System.out.println(" Tipo " +armas.getTipo()+ "Municiones  "+armas.getBalas() + "estado"+ armas.isMostrar() );
         }
     }
 
-    public void imprimirCaniones(ArrayList<Armas> arrayListDer, ArrayList<Armas> arrayListIzq){
+    private void imprimirCaniones(ArrayList<Armas> arrayListDer, ArrayList<Armas> arrayListIzq){
         
         
         Iterator<Armas> iteArrayListDer = arrayListDer.iterator();
-        Iterator<Armas> iteratorListIzq = arrayListIzq.iterator();
+        Iterator<Armas> iteArrayListIzq = arrayListIzq.iterator();
         System.out.println("Elija el canion que desea ocupar en modo Battloid");
 
         while (iteArrayListDer.hasNext()){
@@ -152,14 +162,32 @@ public class Contenedor {
 
         }
 
-        while (iteArrayListDer.hasNext()){
-            Armas armas = iteArrayListDer.next();
+        while (iteArrayListIzq.hasNext()){
+            Armas armas = iteArrayListIzq.next();
 
 
             if(armas.getTipo().equals("Canion"))
                 System.out.println("[" + armas.getBoton() + "] Canion con "+ armas.getBalas());
 
         }
+
+    }
+    private void desactivarArmas(ArrayList<Armas> arrayListDer, ArrayList<Armas> arrayListIzq, String letra){ //solo deja activa l
+
+        if(arrayListDer.get(0).getTipo().equals(letra)) arrayListDer.get(0).setMostrar(false);
+        if(arrayListDer.get(1).getTipo().equals(letra)) arrayListDer.get(1).setMostrar(false);
+        if(arrayListIzq.get(0).getTipo().equals(letra)) arrayListIzq.get(0).setMostrar(false);
+        if(arrayListIzq.get(1).getTipo().equals(letra)) arrayListIzq.get(1).setMostrar(false);
+
+    }
+
+    private void activarArmas(ArrayList<Armas> arrayListDer, ArrayList<Armas> arrayListIzq){ //activa Armas para usarlas en modo avion o pajaro
+
+       arrayListDer.get(0).setMostrar(true);
+       arrayListDer.get(1).setMostrar(true);
+       arrayListIzq.get(0).setMostrar(true);
+       arrayListIzq.get(1).setMostrar(true);
+
     }
 
 
