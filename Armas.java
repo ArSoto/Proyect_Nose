@@ -1,3 +1,4 @@
+
 public class Armas {
     private int balas;
     private String tipo;
@@ -38,3 +39,4 @@ public class Armas {
         this.mostrar = mostrar;
     }
 }
+
