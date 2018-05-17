@@ -27,16 +27,20 @@ public class Contenedor {
     public void imprimirControl(){ //Imprime controles de los robots
         switch (panel.getEstado()){
             case "Fighter":{
-                System.out.println("Para controlar modo Fighter utilice las siguientes teclas:");
+                System.out.println("_________________________________________________________________");
+                System.out.println("\tPara controlar modo Fighter utilice las siguientes teclas:");
                 System.out.println("\t(a) Giro derecha \n\t(d) Giro izquerda \n\t(w) Aumentar altura \n\t(s) Disminuye altura" +
                         "\n\t(i) Acelerar \n\t(k) Desacelerar \n\t(P) Disparar");
+                System.out.println("__________________________________________________________________");
                 break;
             }
             case("Battloid"):{
+                System.out.println("__________________________________________________________________");
                 System.out.println("Para controlar modo Battloid utilice las siguientes teclas:");
                 System.out.println("(A): Avanzar con pierna izquierda \n\t(D): Avanzar con pierna derecha \n\t(R): Retroceder \n\t(P): Disparar (P de pium)" +
                         "\nPara retroceder debe presionar (R), enter y luego la tecla de la pierna con la cual desea retroceder\n"+
                         "\nADVERTENCIA: NO puedes avanzar dos veces con la misma pierna\n");
+                System.out.println("____________________________________________________________________");
                 break;
 
             }
@@ -61,7 +65,7 @@ public class Contenedor {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////ARTUROOOOOOOOOOOOOOOOOOOOOO
     //asigna un array de Clase arma a las extremidades que puden utilizarlas
 
-    private void asignarArmas(){
+    public void asignarArmas(){
 
         b_der.setArma(setArmasArray());
         b_izq.setArma(setArmasArray());
@@ -406,8 +410,6 @@ public class Contenedor {
 
     public int movimientosAire() {
 
-        System.out.println("(a) Giro derecha. \t (d) Giro izquerda. \t (w) Aumentar altura. \t (s) Disminuye altura.");
-        System.out.println("(t) Acelerar. \t (g) Desacelerar. \t (h) Cambiar a modo Battloid. \t(j) Cambiar a modo Gerwalk. \t (f) Cambiar a modo Figher.\n" );
         imprimirArmas(b_der.getArma());
         imprimirArmas(b_izq.getArma());
 
@@ -420,16 +422,37 @@ public class Contenedor {
 
 
             case "a":
+                System.out.println("ESTADO DEL ROBOT" +
+                        "\n \t Modo: " + panel.getEstado() +
+                        "\n \t Altura: " + panel.getAltura() +
+                        " metros\n \t Largo pista: " + panel.getL_pista() +
+                        " metros \n \t Velocidad: " + panel.getVelocidad() +
+                        " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
+                        "-----------------------------------------------------------------------------------------");
                 System.out.println("Giro a la izquierda");
                 break;
 
             case "d":
+                System.out.println("ESTADO DEL ROBOT" +
+                        "\n \t Modo: " + panel.getEstado() +
+                        "\n \t Altura: " + panel.getAltura() +
+                        " metros\n \t Largo pista: " + panel.getL_pista() +
+                        " metros \n \t Velocidad: " + panel.getVelocidad() +
+                        " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
+                        "-----------------------------------------------------------------------------------------");
                 System.out.println("Giro a la derecha");
                 break;
 
             case "w": {
                 if (panel.getAltura() < 10000) {
                     panel.setAltura(panel.getAltura() + 100);
+                    System.out.println("ESTADO DEL ROBOT" +
+                            "\n \t Modo: " + panel.getEstado() +
+                            "\n \t Altura: " + panel.getAltura() +
+                            " metros\n \t Largo pista: " + panel.getL_pista() +
+                            " metros \n \t Velocidad: " + panel.getVelocidad() +
+                            " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
+                            "-----------------------------------------------------------------------------------------");
                     System.out.println("El avion aumenta su altura a " + panel.getAltura());
                     break;
                 } else System.out.println("El avion ya esta en su altura maxima de vuelo");
@@ -439,6 +462,13 @@ public class Contenedor {
             case "s": {
                 if (panel.getAltura() >= 21) {
                     panel.setAltura(panel.getAltura() - 20);
+                    System.out.println("ESTADO DEL ROBOT" +
+                            "\n \t Modo: " + panel.getEstado() +
+                            "\n \t Altura: " + panel.getAltura() +
+                            " metros\n \t Largo pista: " + panel.getL_pista() +
+                            " metros \n \t Velocidad: " + panel.getVelocidad() +
+                            " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
+                            "-----------------------------------------------------------------------------------------");
                     System.out.println("El avion disminuye su altura a " + panel.getAltura());
                     break;
                 } else System.out.println("El avion ya esta en su altura minima de vuelo");
@@ -449,6 +479,13 @@ public class Contenedor {
             case "t":
                 if (panel.getVelocidad() <= 750) {
                     panel.setVelocidad(panel.getVelocidad() + 100);
+                    System.out.println("ESTADO DEL ROBOT" +
+                            "\n \t Modo: " + panel.getEstado() +
+                            "\n \t Altura: " + panel.getAltura() +
+                            " metros\n \t Largo pista: " + panel.getL_pista() +
+                            " metros \n \t Velocidad: " + panel.getVelocidad() +
+                            " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
+                            "-----------------------------------------------------------------------------------------");
                     System.out.println("Velocidad" + panel.getVelocidad());
                     break;
                 } else System.out.println("Imposible  acelerar, ya ha alcanzado el maximo");
@@ -457,6 +494,13 @@ public class Contenedor {
             case "g":
                 if (panel.getVelocidad() >= 100) {
                     panel.setVelocidad(panel.getVelocidad() - 100);
+                    System.out.println("ESTADO DEL ROBOT" +
+                            "\n \t Modo: " + panel.getEstado() +
+                            "\n \t Altura: " + panel.getAltura() +
+                            " metros\n \t Largo pista: " + panel.getL_pista() +
+                            " metros \n \t Velocidad: " + panel.getVelocidad() +
+                            " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
+                            "-----------------------------------------------------------------------------------------");
                     System.out.println("Velocidad" + panel.getVelocidad());
                     break;
                 } else {
@@ -484,7 +528,7 @@ public class Contenedor {
             }
 
             case "j":{
-                if ((panel.getEstado().equals("Fighter")) || ((panel.getAltura() == 0) && (panel.getEstado().equals("Battloid")))) {
+                if ((panel.getAltura() == 0) && (panel.getEstado().equals("Battloid"))) {
                     setCambiar(3);
                     System.out.println("ESTADO DEL ROBOT" +
                             "\n \t Modo: " + panel.getEstado() +
@@ -500,9 +544,6 @@ public class Contenedor {
                     System.out.println("No cumple con los requerimientos basicos para cambiar de forma");break;
                 }
             }
-
-
-
 
 
             case "f":{
@@ -544,10 +585,6 @@ public class Contenedor {
 
 
         }
-
-
-
-
         return 1;
     }
 
@@ -566,8 +603,16 @@ public class Contenedor {
             }
         }
     });
+
     public int movimientosSuelo() {
         //SOLO SE MUEVE HACIA ADELANTE
+        System.out.println("ESTADO DEL ROBOT" +
+                "\n \t Modo: " + panel.getEstado() +
+                "\n \t Altura: " + panel.getAltura() +
+                " metros\n \t Largo pista: " + panel.getL_pista() +
+                " metros \n \t Velocidad: " + panel.getVelocidad() +
+                " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
+                "-----------------------------------------------------------------------------------------");
         boton = scanner.nextLine();
 
         switch (boton) {
@@ -602,29 +647,47 @@ public class Contenedor {
                 System.out.println("-----------------------------------------------------------------------");
                 break;
             }
-            case "k":{//Modo correr
+            case "k": {//Modo correr
                 System.out.println("Modo correr activado");
                 while (estamina > 0) {
-                        timerCorrer.start();
-                        if (estamina <=0){
-                            timerCorrer.stop();
-                        }
+                    timerCorrer.start();
+                    if (estamina <= 0) {
+                        timerCorrer.stop();
+                    }
                     if (estamina < 0) {
                         System.out.println("Battloid no puede correr. Estamina baja.\n" +
                                 "Para recupar estamina camine");
                     }
                 }
-                ////////////////////ARTURO: DESACTIVAR ARMAS!!!!!
-                break;
+            } break;
+            case "p": {
+                if ((panel.getEstado().equals("Fighter")) || ((panel.getAltura() == 0) && (panel.getEstado().equals("Battloid")))) {
+                    setCambiar(3);
+                    System.out.println("ESTADO DEL ROBOT" +
+                            "\n \t Modo: " + panel.getEstado() +
+                            "\n \t Altura: " + panel.getAltura() +
+                            " metros\n \t Largo pista: " + panel.getL_pista() +
+                            " metros \n \t Velocidad: " + panel.getVelocidad() +
+                            " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
+                            "-----------------------------------------------------------------------------------------");
+                    return 3;
+
+                } else {
+                    System.out.println("No cumple con los requerimientos basicos para cambiar de forma");
+                    break;
+                }
             }
+                ////////////////////ARTURO: DESACTIVAR ARMAS!!!!!
+
+
 
             default: {
                 System.out.println("ERROR al leer tecla ingresada, vuelva a presionar");
                 System.out.println("-----------------------------------------------------------------------");
                 break;
             }
-        }
-        return 1;
+        }return 2;
+
     }
 
 
