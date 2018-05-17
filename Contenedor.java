@@ -27,16 +27,20 @@ public class Contenedor {
     public void imprimirControl(){ //Imprime controles de los robots
         switch (panel.getEstado()){
             case "Fighter":{
-                System.out.println("Para controlar modo Fighter utilice las siguientes teclas:");
+                System.out.println("_________________________________________________________________");
+                System.out.println("\tPara controlar modo Fighter utilice las siguientes teclas:");
                 System.out.println("\t(a) Giro derecha \n\t(d) Giro izquerda \n\t(w) Aumentar altura \n\t(s) Disminuye altura" +
                         "\n\t(i) Acelerar \n\t(k) Desacelerar \n\t(P) Disparar");
+                System.out.println("__________________________________________________________________");
                 break;
             }
             case("Battloid"):{
+                System.out.println("__________________________________________________________________");
                 System.out.println("Para controlar modo Battloid utilice las siguientes teclas:");
                 System.out.println("(A): Avanzar con pierna izquierda \n\t(D): Avanzar con pierna derecha \n\t(R): Retroceder \n\t(P): Disparar (P de pium)" +
                         "\nPara retroceder debe presionar (R), enter y luego la tecla de la pierna con la cual desea retroceder\n"+
                         "\nADVERTENCIA: NO puedes avanzar dos veces con la misma pierna\n");
+                System.out.println("____________________________________________________________________");
                 break;
 
             }
@@ -49,19 +53,12 @@ public class Contenedor {
         System.out.println("----------------------------------------------------------------------------------------------------------");
     }
 
-    public void verificarCambio(){ //Comprueba las condiciones antes de cambiar de estado????
-        //BATTLOID --> GERWALK (Altura = 0 metros)
-        //GERWALK --> BATTLOID (Altura < 200 metros || Altura = 0 metros)
-        //GERWALK --> FIGHTER (Siempre que este volando)
-        //FIGHTER --> GERWALK (Cualquier momento)
-        System.out.println("¿Cambio de modo? (C: Cambiar; N: No cambiar)");
-    }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////ARTUROOOOOOOOOOOOOOOOOOOOOO
     //asigna un array de Clase arma a las extremidades que puden utilizarlas
 
-    private void asignarArmas(){
+    public void asignarArmas(){
 
         b_der.setArma(setArmasArray());
         b_izq.setArma(setArmasArray());
@@ -184,35 +181,40 @@ public class Contenedor {
     private void imprimirCaniones(ArrayList<Armas> arrayListDer, ArrayList<Armas> arrayListIzq){
 
 
-        Iterator<Armas> iteArrayListDer = arrayListDer.iterator();
-        Iterator<Armas> iteArrayListIzq = arrayListIzq.iterator();
+
         System.out.println("Elija el canion que desea ocupar en modo Battloid");
 
-        while (iteArrayListDer.hasNext()){
-            Armas armas = iteArrayListDer.next();
+        for (Armas i: arrayListDer ){
 
-
-            if(armas.getTipo().equals("Canion"))
-                System.out.println("[" + armas.getBoton() + "] Canion con "+ armas.getBalas());
+            if(i.getTipo().equals("Canion"))
+                System.out.println("[" + i.getBoton() + "] Canion con "+ i.getBalas());
 
         }
 
-        while (iteArrayListIzq.hasNext()){
-            Armas armas = iteArrayListIzq.next();
+
+        for (Armas j: arrayListIzq){
 
 
-            if(armas.getTipo().equals("Canion"))
-                System.out.println("[" + armas.getBoton() + "] Canion con "+ armas.getBalas());
+            if(j.getTipo().equals("Canion"))
+                System.out.println("[" + j.getBoton() + "] Canion con "+ j.getBalas());
 
         }
 
     }
     private void desactivarArmas(ArrayList<Armas> arrayListDer, ArrayList<Armas> arrayListIzq, String letra){ //solo deja activa l
 
-        if(arrayListDer.get(0).getTipo().equals(letra)) arrayListDer.get(0).setMostrar(false);
-        if(arrayListDer.get(1).getTipo().equals(letra)) arrayListDer.get(1).setMostrar(false);
-        if(arrayListIzq.get(0).getTipo().equals(letra)) arrayListIzq.get(0).setMostrar(false);
-        if(arrayListIzq.get(1).getTipo().equals(letra)) arrayListIzq.get(1).setMostrar(false);
+        if (arrayListDer.size() > 0 && arrayListDer.get(0).getTipo().equals(letra)){
+            arrayListDer.get(0).setMostrar(false);
+        }
+        if (arrayListDer.size() > 1 && arrayListDer.get(1).getTipo().equals(letra)){
+            arrayListDer.get(1).setMostrar(false);
+        }
+        if(arrayListIzq.size() > 0 && arrayListIzq.get(0).getTipo().equals(letra)){
+            arrayListIzq.get(0).setMostrar(false);
+        }
+        if(arrayListIzq.size() > 1 && arrayListIzq.get(1).getTipo().equals(letra)){
+            arrayListIzq.get(1).setMostrar(false);
+        }
 
         }
 
@@ -406,8 +408,6 @@ public class Contenedor {
 
     public int movimientosAire() {
 
-        System.out.println("(a) Giro derecha. \t (d) Giro izquerda. \t (w) Aumentar altura. \t (s) Disminuye altura.");
-        System.out.println("(t) Acelerar. \t (g) Desacelerar. \t (h) Cambiar a modo Battloid. \t(j) Cambiar a modo Gerwalk. \t (f) Cambiar a modo Figher.\n" );
         imprimirArmas(b_der.getArma());
         imprimirArmas(b_izq.getArma());
 
@@ -484,7 +484,7 @@ public class Contenedor {
             }
 
             case "j":{
-                if ((panel.getEstado().equals("Fighter")) || ((panel.getAltura() == 0) && (panel.getEstado().equals("Battloid")))) {
+                if ((panel.getAltura() == 0) && (panel.getEstado().equals("Battloid"))) {
                     setCambiar(3);
                     System.out.println("ESTADO DEL ROBOT" +
                             "\n \t Modo: " + panel.getEstado() +
@@ -562,12 +562,18 @@ public class Contenedor {
                 panel.setPos_robot(panel.getPos_robot()+10);
                 System.out.println("Avanzando 10 metros...distancia recorrida desde el hangar: " + panel.getPos_robot()+ " metros" +
                         "\n ------------------------------------------------------------------------------");
+            }
+            if(estamina <= 0){
 
             }
         }
     });
     public int movimientosSuelo() {
         //SOLO SE MUEVE HACIA ADELANTE
+
+        armaBattloid(b_der.getArma(),b_izq.getArma());
+
+
         boton = scanner.nextLine();
 
         switch (boton) {
@@ -614,8 +620,17 @@ public class Contenedor {
                                 "Para recupar estamina camine");
                     }
                 }
-                ////////////////////ARTURO: DESACTIVAR ARMAS!!!!!
                 break;
+            }
+
+            case "z": {
+                if ((panel.getEstado().equals("Fighter")) || ((panel.getAltura() == 0) && (panel.getEstado().equals("Battloid")))) {
+                    setCambiar(3);
+                    return 3;
+                } else {
+                    System.out.println("No cumple con los requerimientos basicos para cambiar de forma");
+                break;
+            }
             }
 
             default: {
@@ -624,7 +639,7 @@ public class Contenedor {
                 break;
             }
         }
-        return 1;
+        return 2;
     }
 
 
