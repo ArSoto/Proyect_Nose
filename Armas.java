@@ -1,13 +1,25 @@
 public class Armas {
     private int balas;
     private String tipo;
+    private boolean mostrar;
+    private String boton;
 
-    public Armas( int balas, String tipo) {
+
+    public Armas(int balas, String tipo, boolean mostrar, String boton) {
         this.balas = balas;
         this.tipo = tipo;
+        this.mostrar = mostrar;
+        this.boton = boton;
 
     }
 
+    public void setBalas(int balas) {
+        this.balas = balas;
+    }
+
+    public String getBoton() {
+        return boton;
+    }
 
     public int getBalas() {
         return balas;
@@ -17,20 +29,12 @@ public class Armas {
         return tipo;
     }
 
-    public void   setLaser(String estado) {
 
-        switch (estado){
-            case "Batlloid":
-                System.out.println("El modo Battloid no dispone de armas laser"); break;
+    public boolean isMostrar() {
+        return mostrar;
+    }
 
-            case "Fighter":
-                if (this.balas >0 )this.balas= this.balas -1;
-                System.out.println("Carga del laser "+ this.balas +"0%");
-            break;
-
-        }
-
-
+    public void setMostrar(boolean mostrar) {
+        this.mostrar = mostrar;
     }
 }
-

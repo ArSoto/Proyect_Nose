@@ -1,20 +1,23 @@
+import java.util.ArrayList;
+
+import java.util.ArrayList;
+
 public class Brazos {
 
 
     private int SubirBajar_Brazo;
     private int DerIzq_Brazo;
-    boolean Mostrar_brazo;
+    private boolean Mostrar_brazo;
+    private ArrayList<Armas> arma;
 
 
-    public Brazos( int subirBajar_Brazo, int derIzq_Brazo, boolean mostrar_brazo) {
+    public Brazos(int subirBajar_Brazo, int derIzq_Brazo, boolean mostrar_brazo, ArrayList<Armas> armamento) {
 
         SubirBajar_Brazo = subirBajar_Brazo;
         DerIzq_Brazo = derIzq_Brazo;
         Mostrar_brazo = mostrar_brazo;
-        Armas armas;
+        arma= armamento;
     }
-
-
 
 
 
@@ -40,5 +43,13 @@ public class Brazos {
 
     public void setMostrar_brazo(boolean mostrar_brazo) {
         Mostrar_brazo = mostrar_brazo;
+    }
+
+    public ArrayList<Armas> getArma() {
+        return arma;
+    }
+
+    public void setArma(ArrayList<Armas> arma) {
+        this.arma = arma;
     }
 }

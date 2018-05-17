@@ -1,48 +1,61 @@
 import java.util.Scanner;
 import java.util.Random;
 
-    public class Controlador {
+public class Controlador {
 
 
 
 
-        public static void controlador(){
+    public static void controlador(){
 
 
-            Contenedor robot = new Contenedor(1);
-            boolean estado;
+        Contenedor robot = new Contenedor(1);
+        int estado= 1;
 
 
-            Controlador.iniciarPista();
+        robot.iniciarPista();
 
+        int m=1;
 
+        while(m==1) {
 
             robot.getEstado();
-            robot.setCambiar(1);
-
-            do {
-               estado= robot.movimientosAire();
-
-            }while (estado=true);
-
-
+            m = robot.setDespegarModoAvion(robot.panel.getVelocidad(), robot.panel.getAltura(), robot.panel.getL_pista());
+            robot.condiciones_Despegar();
         }
 
+        robot.getEstado();
+        robot.Despegar();
 
-        private static int iniciarPista() {
+        robot.getEstado();
 
-            Scanner scanner= new Scanner(System.in);
-            int eleccion;
+        int c=1;
+        while(c==1) {
 
+            int s=robot.getCambiar();
 
-            do {
-            System.out.println("MENU DE OPCIONES: \n");
-            System.out.println("\t (1)Iniciar pista ");
-            eleccion = scanner.nextInt();
-            if(eleccion!=1) System.out.println("|||||No es posible iniciar  sin pista||||\n");
-            }while (eleccion !=1);
+            if (estado==1)
+            {
+                do {
+                    estado =  robot.movimientosAire();
+                    System.out.println(estado);
 
-            return 1;
+                }while (estado==1);
+            }
+            if (estado == 2)
+            {
+                do {
+                    estado= robot.movimientosSuelo();
+                }while(estado==2);
+            }
+
+                /*if (estado == 3)
+                {
+                    do {
+                        robot.movimientosPajaros();
+                    }while(estado=true);
+                }
+                */
         }
 
 
@@ -52,9 +65,7 @@ import java.util.Random;
 
 
 
-
-
-
+}
 
 
 
