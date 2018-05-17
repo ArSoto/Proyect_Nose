@@ -356,7 +356,9 @@ public class Contenedor {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             estamina -= 10;
-            System.out.println("Battloid corriendo...\nEstamina disponible: " + estamina);
+            if (estamina >=0){
+                System.out.println("Battloid corriendo...\nEstamina disponible: " + estamina);
+            }
         }
     });
     public boolean movimientosSuelo() {
@@ -410,6 +412,7 @@ public class Contenedor {
                     }
                 }
                 ////////////////////ARTURO: DESACTIVAR ARMAS!!!!!
+                break;
             }
 
             default: {
