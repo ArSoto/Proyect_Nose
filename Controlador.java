@@ -13,6 +13,7 @@ public class Controlador {
         int estado= 1;
 
 
+        robot.asignarArmas();
         robot.iniciarPista();
 
         int m=1;
@@ -25,23 +26,24 @@ public class Controlador {
         }
 
         robot.getEstado();
-        robot.Despegar();
+        estado=robot.Despegar();
 
-        robot.getEstado();
+
 
         int c=1;
         while(c==1) {
 
-            int s=robot.getCambiar();
-
+            robot.imprimirControl();
             if (estado==1)
             {
                 do {
+
                     estado =  robot.movimientosAire();
                     System.out.println(estado);
 
                 }while (estado==1);
             }
+
             if (estado == 2)
             {
                 do {
@@ -52,6 +54,7 @@ public class Controlador {
                 /*if (estado == 3)
                 {
                     do {
+                    robot.imprimircontrol();
                         robot.movimientosPajaros();
                     }while(estado=true);
                 }
