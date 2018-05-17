@@ -1,7 +1,5 @@
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -26,6 +24,41 @@ public class Contenedor {
     int estamina = random.nextInt(100)+1;
 
 ///////////////////////////////////////////////////////////////////
+    public void imprimirControl(){ //Imprime controles de los robots
+        switch (panel.getEstado()){
+            case "Fighter":{
+                System.out.println("Para controlar modo Fighter utilice las siguientes teclas:");
+                System.out.println("\t(a) Giro derecha \n\t(d) Giro izquerda \n\t(w) Aumentar altura \n\t(s) Disminuye altura" +
+                        "\n\t(i) Acelerar \n\t(k) Desacelerar \n\t(P) Disparar");
+                break;
+            }
+            case("Battloid"):{
+                System.out.println("Para controlar modo Battloid utilice las siguientes teclas:");
+                System.out.println("(A): Avanzar con pierna izquierda \n\t(D): Avanzar con pierna derecha \n\t(R): Retroceder \n\t(P): Disparar (P de pium)" +
+                        "\nPara retroceder debe presionar (R), enter y luego la tecla de la pierna con la cual desea retroceder\n"+
+                        "\nADVERTENCIA: NO puedes avanzar dos veces con la misma pierna\n");
+                break;
+
+            }
+            case("Gerwalk"):{
+                System.out.println("Para controlar modo Gerwalk utilice las siguientes teclas:");
+
+                break;
+            }
+        }
+        System.out.println("----------------------------------------------------------------------------------------------------------");
+    }
+
+    public void verificarCambio(){ //Comprueba las condiciones antes de cambiar de estado????
+        //BATTLOID --> GERWALK (Altura = 0 metros)
+        //GERWALK --> BATTLOID (Altura < 200 metros || Altura = 0 metros)
+        //GERWALK --> FIGHTER (Siempre que este volando)
+        //FIGHTER --> GERWALK (Cualquier momento)
+        System.out.println("¿Cambio de modo? (C: Cambiar; N: No cambiar)");
+    }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////ARTUROOOOOOOOOOOOOOOOOOOOOO
     //asigna un array de Clase arma a las extremidades que puden utilizarlas
 
     private void asignarArmas(){
@@ -76,7 +109,7 @@ public class Contenedor {
     }
 
     public void armaBattloid (ArrayList<Armas> izq, ArrayList<Armas> der){
-
+        
         String letra;
         if (contadorArmas[0] == 0){
             System.out.println("El Robot no posee ningun cañon que pueda utilizar");
@@ -106,10 +139,10 @@ public class Contenedor {
         int tempInt =random.nextInt(2)+1;
             String botones[] ={"u","i","o","p"}; // Servira para asignar boton a cada arma
 
-        if (tempInt==1) {
+            if (tempInt==1) {
 
-            tempString = "Canion";
-            contadorArmas[0]++;
+                tempString = "Canion";
+                contadorArmas[0]++;
             }
             else
                 {
@@ -120,7 +153,7 @@ public class Contenedor {
         armas= new Armas(random.nextInt(10)+1,tempString, true, botones[contBoton]);
         contBoton++;
 
-        return armas;
+            return armas;
     }
 
     //Crea los arreglos para las armas
@@ -149,8 +182,8 @@ public class Contenedor {
     }
 
     private void imprimirCaniones(ArrayList<Armas> arrayListDer, ArrayList<Armas> arrayListIzq){
-        
-        
+
+
         Iterator<Armas> iteArrayListDer = arrayListDer.iterator();
         Iterator<Armas> iteArrayListIzq = arrayListIzq.iterator();
         System.out.println("Elija el canion que desea ocupar en modo Battloid");
@@ -181,7 +214,7 @@ public class Contenedor {
         if(arrayListIzq.get(0).getTipo().equals(letra)) arrayListIzq.get(0).setMostrar(false);
         if(arrayListIzq.get(1).getTipo().equals(letra)) arrayListIzq.get(1).setMostrar(false);
 
-    }
+        }
 
     private void activarArmas(ArrayList<Armas> arrayListDer, ArrayList<Armas> arrayListIzq){ //activa Armas para usarlas en modo avion o pajaro
 
@@ -211,7 +244,7 @@ public class Contenedor {
     Alas a_izq = new Alas(true, armasArrayListIzq);
     Piernas p_der = new Piernas(false, false,false);
     Piernas p_izq = new Piernas(false, false,false);
-    Piernas anterior = new Piernas(true, false, false); //Va a tomar el mismo valor que boton al caminar
+
 
     public Panel_de_Control getPanel() {
         return panel;
@@ -510,7 +543,7 @@ public class Contenedor {
 
 
 
-            }
+        }
 
 
 
@@ -520,16 +553,20 @@ public class Contenedor {
 
     int avanzar = 5;
     int retroceder = 1;
-    Timer timerCorrer = new Timer(1000, new ActionListener() {
+    Timer timerCorrer = new Timer(1500, new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            estamina -= 10;
             if (estamina >=0){
-                System.out.println("Battloid corriendo...\nEstamina disponible: " + estamina);
+                System.out.println("Battloid corriendo...\nEstamina disponible: " + estamina+ " %");
+                estamina -= 10;
+                panel.setPos_robot(panel.getPos_robot()+10);
+                System.out.println("Avanzando 10 metros...distancia recorrida desde el hangar: " + panel.getPos_robot()+ " metros" +
+                        "\n ------------------------------------------------------------------------------");
+
             }
         }
     });
-    public boolean movimientosSuelo() {
+    public int movimientosSuelo() {
         //SOLO SE MUEVE HACIA ADELANTE
         boton = scanner.nextLine();
 
@@ -538,18 +575,16 @@ public class Contenedor {
             case "r":{ retroceder = -1; break;}
             case "d": { //PIERNA DERECHA
                 if (p_der.isAvanzar()) {
-                    System.out.println("No puede avanzar dos veces con la misma pierna");
+                    System.out.println("No puede avanzar/retroceder dos veces con la misma pierna");
                 }
                 if (!p_der.isAvanzar()) {
-                    System.out.println("Avanza 5 metros con la pierna derecha");
+                    System.out.println( retroceder*(5) + " metros con la pierna derecha");
                     panel.setPos_robot(panel.getPos_robot() + avanzar*retroceder);
-                    System.out.println(panel.getPos_robot());
-
                     p_der.setAvanzar(true);
                     p_izq.setAvanzar(false);
                 }
-                System.out.println("\nADVERTENCIA: para el siguiente paso recuerda que no puedes avanzar dos veces con la misma pierna");
-                System.out.println("-----------------------------------------------------------------------\n");
+                System.out.println("ADVERTENCIA: para el siguiente paso recuerda que no puedes avanzar dos veces con la misma pierna");
+                System.out.println("-----------------------------------------------------------------------");
                 break;
             }
             case "a": { //PIERNA IZQUIERDA
@@ -558,25 +593,25 @@ public class Contenedor {
                     System.out.println("No puede avanzar dos veces con la misma pierna");
                 }
                 if (!p_izq.isAvanzar()) {
-                    System.out.println("Avanza 5 metros con la pierna izquierda");
+                    System.out.println( retroceder*(5) +" metros con la pierna izquierda");
                     panel.setPos_robot(panel.getPos_robot() + avanzar*retroceder);
-                    System.out.println(panel.getPos_robot());
                     p_izq.setAvanzar(true);
                     p_der.setAvanzar(false);
                 }
-                System.out.println("\nADVERTENCIA: para el siguiente paso recuerda que no puedes avanzar dos veces con la misma pierna");
-                System.out.println("-----------------------------------------------------------------------\n");
+                System.out.println("ADVERTENCIA: para el siguiente paso recuerda que no puedes avanzar dos veces con la misma pierna");
+                System.out.println("-----------------------------------------------------------------------");
                 break;
             }
             case "k":{//Modo correr
-                System.out.println("Modo Correr Activado, \nEstamina disponible: " + estamina + " %");
+                System.out.println("Modo correr activado");
                 while (estamina > 0) {
                         timerCorrer.start();
                         if (estamina <=0){
                             timerCorrer.stop();
                         }
                     if (estamina < 0) {
-                        System.out.println("Battloid no puede correr. Estamina baja.");
+                        System.out.println("Battloid no puede correr. Estamina baja.\n" +
+                                "Para recupar estamina camine");
                     }
                 }
                 ////////////////////ARTURO: DESACTIVAR ARMAS!!!!!
@@ -585,14 +620,12 @@ public class Contenedor {
 
             default: {
                 System.out.println("ERROR al leer tecla ingresada, vuelva a presionar");
-                System.out.println("\n-----------------------------------------------------------------------\n");
+                System.out.println("-----------------------------------------------------------------------");
                 break;
             }
         }
-        return true;
+        return 1;
     }
-
-
 
 
 
