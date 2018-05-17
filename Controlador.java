@@ -22,36 +22,35 @@ import java.util.Random;
             robot.getEstado();
                 m = robot.setDespegarModoAvion(robot.panel.getVelocidad(), robot.panel.getAltura(), robot.panel.getL_pista());
                 robot.condiciones_Despegar();
+
             }
 
-            robot.getEstado();
-            robot.Despegar();
-
-            robot.getEstado();
-
+            estado=robot.Despegar();
             int c=1;
             while(c==1) {
 
-                int s=robot.getCambiar();
+
 
                 if (estado==1)
                 {
                     do {
-                      estado=  robot.movimientosAire();
-                      System.out.println(estado);
+                        robot.getEstado();
+                        estado=  robot.movimientosAire();
 
                     }while (estado==1);
                 }
                 if (estado == 2)
                 {
                     do {
-                       estado= robot.movimientosSuelo();
+                        robot.getEstado();
+                        estado= robot.movimientosSuelo();
                     }while(estado==2);
                 }
 
                 /*if (estado == 3)
                 {
                     do {
+                    robot.getEstado();
                         robot.movimientosPajaros();
                     }while(estado=true);
                 }
