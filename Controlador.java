@@ -58,6 +58,7 @@ public class Controlador {
                 }while(robot.panel.getEstado().equals("Gerwalk"));
             }
 
+        //c=robot.GuardarRobot(c);
         }
 
 
