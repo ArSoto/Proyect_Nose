@@ -6,68 +6,66 @@ public class Controlador {
 
 
 
-    public static void controlador(){
+    public void controlador(){
 
 
         Contenedor robot = new Contenedor(1);
-        int estado= 1;
 
 
-        robot.asignarArmas();
+
         robot.iniciarPista();
+        robot.asignarArmas();
+
 
         int m=1;
 
         while(m==1) {
 
             robot.getEstado();
+
+
             m = robot.setDespegarModoAvion(robot.panel.getVelocidad(), robot.panel.getAltura(), robot.panel.getL_pista());
             robot.condiciones_Despegar();
         }
 
-        robot.getEstado();
-        estado=robot.Despegar();
 
 
-
+        robot.Despegar();
         int c=1;
         while(c==1) {
 
-            robot.imprimirControl();
-            if (estado==1)
+
+
+            if (robot.panel.getEstado().equals("Fighter"))
             {
                 do {
+                    robot.getEstado();
+                    robot.movimientosAire();
 
-                    estado =  robot.movimientosAire();
-                    System.out.println(estado);
-
-                }while (estado==1);
+                }while (robot.panel.getEstado().equals("Fighter"));
             }
-
-            if (estado == 2)
+            if (robot.panel.getEstado().equals("Battloid"))
             {
                 do {
-                    estado= robot.movimientosSuelo();
-                }while(estado==2);
+                    robot.getEstado();
+                    robot.movimientosSuelo();
+                }while(robot.panel.getEstado().equals("Battloid"));
             }
 
-                /*if (estado == 3)
+            if (robot.panel.getEstado().equals("Gerwalk"))
                 {
                     do {
-                    robot.imprimircontrol();
-                        robot.movimientosPajaros();
-                    }while(estado=true);
-                }
-                */
-        }
+                    robot.getEstado();
+                    robot.movimientosPajaros();
+                }while(robot.panel.getEstado().equals("Gerwalk"));
+            }
 
+            c=robot.GuardarRobot(c);
+
+        }
+        System.out.println("GAME OVER!");
 
     }
-
-
-
-
-
 }
 
 
