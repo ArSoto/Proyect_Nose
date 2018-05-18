@@ -6,7 +6,7 @@ public class Controlador {
 
 
 
-    public static void controlador(){
+    public void controlador(){
 
 
         Contenedor robot = new Contenedor(1);
@@ -14,6 +14,7 @@ public class Controlador {
 
 
         robot.iniciarPista();
+        robot.asignarArmas();
 
 
         int m=1;
