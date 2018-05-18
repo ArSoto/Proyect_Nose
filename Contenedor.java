@@ -29,8 +29,8 @@ public class Contenedor {
     public void imprimirControl(){ //Imprime controles de los robots
         switch (panel.getEstado()){
             case "Fighter":{
-                System.out.println("_________________________________________________________________");
-                System.out.println("\tPara controlar modo Fighter utilice las siguientes teclas:");
+                System.out.println("\n_________________________________________________________________");
+                System.out.println("\n\tPara controlar modo Fighter utilice las siguientes teclas:");
                 System.out.println("(a) Giro derecha. \t (d) Giro izquerda. \t (w) Aumentar altura. \t (s) Disminuye altura. \n" +
                         "(i) Acelerar. \t (k) Desacelerar.  \t (b) Cambiar a modo Battloid. \t(g) Cambiar a modo Gerwalk. \n");
 
@@ -39,7 +39,10 @@ public class Contenedor {
             }
             case("Battloid"):{
                 System.out.println("__________________________________________________________________");
-                System.out.println("Para controlar modo Battloid utilice las siguientes teclas:");
+                System.out.println("\n\tPara controlar modo Battloid utilice las siguientes teclas:"+
+                "(A): Avanzar con pierna izquierda \n\t(D): Avanzar con pierna derecha \n\t(R): Retroceder \n\t(P): Disparar (P de pium)" +
+                "\nPara retroceder debe presionar (R), enter y luego la tecla de la pierna con la cual desea retroceder\n"+
+                        "\nADVERTENCIA: NO puedes avanzar dos veces con la misma pierna\n");
 
                 System.out.println("____________________________________________________________________");
                 break;
@@ -342,6 +345,8 @@ public class Contenedor {
                 "-----------------------------------------------------------------------------------------");
     }
 
+
+
     public int setDespegarModoAvion(int velocidad, int altura, int l_pista ){
 
 
@@ -463,11 +468,11 @@ public class Contenedor {
 
     public void movimientosAire() {
 
-        imprimirControl();
+
 
         imprimirArmas(b_der.getArma());
         imprimirArmas(b_izq.getArma());
-
+        imprimirControl();
 
 
         boton = scanner.nextLine();
@@ -586,6 +591,7 @@ public class Contenedor {
     });
 
     public void movimientosSuelo() {
+
         imprimirControl();
 
         //armaBattloid(b_izq.getArma(),b_der.getArma());
