@@ -2,7 +2,10 @@ public class Main {
 
     public static void main(String [] args) {
 
-        Controlador.controlador();
+
+        Controlador controlador = new Controlador();
+
+        controlador.controlador();
 
 
     }
