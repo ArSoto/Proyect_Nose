@@ -9,6 +9,7 @@ public class Panel_de_Control {
     private int altura;     //Altura a la que se encuentra el robot
     private int velocidad = 0;
     private int pos_robot = 0;
+    private boolean pista = false;
 
     //Constructor
     public Panel_de_Control(String estado,int altura) {
@@ -33,6 +34,10 @@ public class Panel_de_Control {
         return this.pos_robot = pos_robot;
     }
 
+    public void setPista(boolean pista) {
+        this.pista = pista;
+    }
+
     //Getter
     public String getEstado() {
         return estado;
@@ -55,7 +60,8 @@ public class Panel_de_Control {
         return pos_robot;
     }
 
-
-
+    public boolean getPista() {
+        return pista;
+    }
 }
 
