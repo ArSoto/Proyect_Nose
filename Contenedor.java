@@ -4,16 +4,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.function.BinaryOperator;
 import javax.swing.Timer;
 
 public class Contenedor {
     int cambiare;
     private int cambiar;
     private Random random = new Random();
-    private Scanner scanner= new Scanner(System.in);
+    private Scanner scanner = new Scanner(System.in);
 
 
     private String boton;
+    private String boton1;
     private int contBoton =0;
     private Armas armas;
     private int tempInt;
@@ -29,17 +31,14 @@ public class Contenedor {
             case "Fighter":{
                 System.out.println("_________________________________________________________________");
                 System.out.println("\tPara controlar modo Fighter utilice las siguientes teclas:");
-                System.out.println("\t(a) Giro derecha \n\t(d) Giro izquerda \n\t(w) Aumentar altura \n\t(s) Disminuye altura" +
-                        "\n\t(i) Acelerar \n\t(k) Desacelerar \n\t(P) Disparar");
+
                 System.out.println("__________________________________________________________________");
                 break;
             }
             case("Battloid"):{
                 System.out.println("__________________________________________________________________");
                 System.out.println("Para controlar modo Battloid utilice las siguientes teclas:");
-                System.out.println("(A): Avanzar con pierna izquierda \n\t(D): Avanzar con pierna derecha \n\t(R): Retroceder \n\t(P): Disparar (P de pium)" +
-                        "\nPara retroceder debe presionar (R), enter y luego la tecla de la pierna con la cual desea retroceder\n"+
-                        "\nADVERTENCIA: NO puedes avanzar dos veces con la misma pierna\n");
+
                 System.out.println("____________________________________________________________________");
                 break;
 
@@ -47,19 +46,13 @@ public class Contenedor {
             case("Gerwalk"):{
                 System.out.println("Para controlar modo Gerwalk utilice las siguientes teclas:");
 
+                System.out.println("____________________________________________________________________");
                 break;
             }
         }
         System.out.println("----------------------------------------------------------------------------------------------------------");
     }
 
-    public void verificarCambio(){ //Comprueba las condiciones antes de cambiar de estado????
-        //BATTLOID --> GERWALK (Altura = 0 metros)
-        //GERWALK --> BATTLOID (Altura < 200 metros || Altura = 0 metros)
-        //GERWALK --> FIGHTER (Siempre que este volando)
-        //FIGHTER --> GERWALK (Cualquier momento)
-        System.out.println("¿Cambio de modo? (C: Cambiar; N: No cambiar)");
-    }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////ARTUROOOOOOOOOOOOOOOOOOOOOO
@@ -113,11 +106,11 @@ public class Contenedor {
     }
 
     public void armaBattloid (ArrayList<Armas> izq, ArrayList<Armas> der){
-        
+
         String letra;
         if (contadorArmas[0] == 0){
             System.out.println("El Robot no posee ningun cañon que pueda utilizar");
-            desactivarArmas(izq, der, null);
+            desactivarArmas(izq, der, "Desactivar");
             return;
         }
 
@@ -130,6 +123,14 @@ public class Contenedor {
                     if (i.getTipo().equals("Canion")) desactivarArmas(izq, der, letra);return;
 
                 }
+
+            }
+            for (Armas j: der){
+                if (j.getBoton().equals(letra)) {
+                    if (j.getTipo().equals("Canion")) desactivarArmas(izq, der, letra);return;
+
+                }
+
 
             }
             System.out.println("Tecla no valida");
@@ -188,44 +189,56 @@ public class Contenedor {
     private void imprimirCaniones(ArrayList<Armas> arrayListDer, ArrayList<Armas> arrayListIzq){
 
 
-        Iterator<Armas> iteArrayListDer = arrayListDer.iterator();
-        Iterator<Armas> iteArrayListIzq = arrayListIzq.iterator();
         System.out.println("Elija el canion que desea ocupar en modo Battloid");
 
-        while (iteArrayListDer.hasNext()){
-            Armas armas = iteArrayListDer.next();
+        for (Armas i: arrayListDer ){
 
-
-            if(armas.getTipo().equals("Canion"))
-                System.out.println("[" + armas.getBoton() + "] Canion con "+ armas.getBalas());
+            if(i.getTipo().equals("Canion"))
+                System.out.println("[" + i.getBoton() + "] Canion con "+ i.getBalas());
 
         }
 
-        while (iteArrayListIzq.hasNext()){
-            Armas armas = iteArrayListIzq.next();
+
+        for (Armas j: arrayListIzq){
 
 
-            if(armas.getTipo().equals("Canion"))
-                System.out.println("[" + armas.getBoton() + "] Canion con "+ armas.getBalas());
+            if(j.getTipo().equals("Canion"))
+                System.out.println("[" + j.getBoton() + "] Canion con "+ j.getBalas());
 
         }
 
     }
-    private void desactivarArmas(ArrayList<Armas> arrayListDer, ArrayList<Armas> arrayListIzq, String letra){ //solo deja activa l
+    private void desactivarArmas(ArrayList<Armas> arrayListDer, ArrayList<Armas> arrayListIzq, String letra) { //solo deja activa l
 
-        if(arrayListDer.get(0).getTipo().equals(letra)) arrayListDer.get(0).setMostrar(false);
-        if(arrayListDer.get(1).getTipo().equals(letra)) arrayListDer.get(1).setMostrar(false);
-        if(arrayListIzq.get(0).getTipo().equals(letra)) arrayListIzq.get(0).setMostrar(false);
-        if(arrayListIzq.get(1).getTipo().equals(letra)) arrayListIzq.get(1).setMostrar(false);
+
+        for (Armas i : arrayListDer) {
+            if (!i.getBoton().equals(letra)) {
+                i.setMostrar(false);
+            }
+        }
+        for (Armas i : arrayListIzq) {
+            if (!i.getBoton().equals(letra)) {
+                i.setMostrar(false);
+            }
 
         }
 
+        System.out.println("Armas desactivadas :-) ");
+    }
+
     private void activarArmas(ArrayList<Armas> arrayListDer, ArrayList<Armas> arrayListIzq){ //activa Armas para usarlas en modo avion o pajaro
 
-       arrayListDer.get(0).setMostrar(true);
-       arrayListDer.get(1).setMostrar(true);
-       arrayListIzq.get(0).setMostrar(true);
-       arrayListIzq.get(1).setMostrar(true);
+        for (Armas i : arrayListDer) {
+
+                i.setMostrar(true);
+
+        }
+        for (Armas i : arrayListIzq) {
+
+                i.setMostrar(true);
+
+
+        }
 
     }
 
@@ -272,12 +285,12 @@ public class Contenedor {
         return 1;
     }
 
-    public int setCambiar(int cambiar) {
+    public  void  setCambiar(String cambiar) {
 
         switch (cambiar){
 
             //Fighter: Avion
-            case 1: {
+            case ("Fighter"): {
                 c.setMostrar_Cabeza(false);
                 b_der.setMostrar_brazo(false);
                 b_izq.setMostrar_brazo(false);
@@ -289,7 +302,7 @@ public class Contenedor {
                 break;
             }
             //Battloid: Humanoide
-            case 2:{
+            case ("Battloid"):{
                 c.setMostrar_Cabeza(true);
                 b_der.setMostrar_brazo(true);
                 b_izq.setMostrar_brazo(true);
@@ -301,7 +314,7 @@ public class Contenedor {
                 break;
             }
             //Gerwalk: Pajaro
-            case 3:{
+            case ("Gerwalk"):{
                 c.setMostrar_Cabeza(false);
                 b_der.setMostrar_brazo(true);
                 b_izq.setMostrar_brazo(true);
@@ -314,7 +327,7 @@ public class Contenedor {
             }
 
         }
-        return cambiar;
+
     }
 
     public void getEstado (){
@@ -364,7 +377,8 @@ public class Contenedor {
              if (boton.equals("s")) {
                  panel.setAltura(random.nextInt(950) + 50);
                 cambiare=1;
-                 p=1;
+                p++;
+
              }
              if (boton.equals("n")){
                 System.out.println("¿Desea pasar a modo Battloid o Gerwalk o desea despegar? b/g/d");
@@ -372,14 +386,14 @@ public class Contenedor {
                 String boton2;
                 boton2=scanner.nextLine();
                 if (boton2.equals("b")){
-                    setCambiar(2);
+                    panel.setEstado("Battloid");
                     cambiare = 2;
                     p++;
 
                 }
 
                 if (boton2.equals("g")){
-                    setCambiar(3);
+                    panel.setEstado("Gerwalk");
                     cambiare = 3;
                     p++;
 
@@ -407,13 +421,51 @@ public class Contenedor {
     }
 
 
+    public void cambiar_Estado(String boton) {
 
-    public int movimientosAire() {
+        //DE GERWALK A BATTLOID O FIGHTER
+        if ( (boton.equals("b")) && (panel.getAltura() <=200) && (panel.getEstado().equals("Gerwalk"))){
+            panel.setEstado("Battloid");
+            System.out.println(panel.getEstado() +
+                    "-----------------------------------------------------------------------------------------");
+        }
+        else if (boton.equals("f")&& panel.getEstado().equals("Gerwalk")){
+            panel.setEstado("Fighter");
+            System.out.println(panel.getEstado() +
+                    "-----------------------------------------------------------------------------------------");
+        }
+
+        //CAMBIAR DE FIGHTER A BATTLOID O GERWALK
+
+        if ( (boton.equals("b")) && (panel.getAltura() < 200) && (panel.getEstado().equals("Fighter"))){
+            panel.setEstado("Battloid");
+            System.out.println(panel.getEstado() +
+                    "-----------------------------------------------------------------------------------------");
+        }
+        else if(boton.equals("g") && panel.getEstado().equals("Fighter")){
+            panel.setEstado("Gerwalk");
+            System.out.println(panel.getEstado() +
+
+               "-----------------------------------------------------------------------------------------");
+        }
+
+        //DE BATTLOID A GERWALK
+        if (boton.equals("g") && panel.getEstado().equals("Battloid")){
+            panel.setEstado("Gerwalk");
+        }
+
+
+    }
+
+
+
+    public void movimientosAire() {
 
         imprimirArmas(b_der.getArma());
         imprimirArmas(b_izq.getArma());
 
-
+        System.out.println("(a) Giro derecha. \t (d) Giro izquerda. \t (w) Aumentar altura. \t (s) Disminuye altura. \n" +
+                "(i) Acelerar. \t (k) Desacelerar.  \t (b) Cambiar a modo Battloid. \t(g) Cambiar a modo Gerwalk. \n");
 
         boton = scanner.nextLine();
 
@@ -421,63 +473,47 @@ public class Contenedor {
         switch (boton) {
 
 
-            case "a":
-                System.out.println("ESTADO DEL ROBOT" +
-                        "\n \t Modo: " + panel.getEstado() +
-                        "\n \t Altura: " + panel.getAltura() +
-                        " metros\n \t Largo pista: " + panel.getL_pista() +
-                        " metros \n \t Velocidad: " + panel.getVelocidad() +
-                        " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
-                        "-----------------------------------------------------------------------------------------");
-                System.out.println("Giro a la izquierda");
-                break;
+            case "a": {
 
-            case "d":
-                System.out.println("ESTADO DEL ROBOT" +
-                        "\n \t Modo: " + panel.getEstado() +
-                        "\n \t Altura: " + panel.getAltura() +
-                        " metros\n \t Largo pista: " + panel.getL_pista() +
-                        " metros \n \t Velocidad: " + panel.getVelocidad() +
-                        " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
+                System.out.println("El avion ha avanzado hacia la izquierda" +
                         "-----------------------------------------------------------------------------------------");
-                System.out.println("Giro a la derecha");
                 break;
+            }
+
+            case "d":{
+                System.out.println("El avion ha avanzado hacia la derecha" +
+                        "-----------------------------------------------------------------------------------------");
+                break;
+            }
 
             case "w": {
-                if (panel.getAltura() < 10000) {
+                if (panel.getAltura() < 1000) {
                     panel.setAltura(panel.getAltura() + 100);
-                    System.out.println("ESTADO DEL ROBOT" +
-                            "\n \t Modo: " + panel.getEstado() +
-                            "\n \t Altura: " + panel.getAltura() +
-                            " metros\n \t Largo pista: " + panel.getL_pista() +
-                            " metros \n \t Velocidad: " + panel.getVelocidad() +
-                            " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
+                    System.out.println("El avion ha subido: " + panel.getAltura() + " metros." +
                             "-----------------------------------------------------------------------------------------");
-                    System.out.println("El avion aumenta su altura a " + panel.getAltura());
                     break;
                 } else System.out.println("El avion ya esta en su altura maxima de vuelo");
                 break;
             }
 
             case "s": {
-                if (panel.getAltura() >= 21) {
-                    panel.setAltura(panel.getAltura() - 20);
-                    System.out.println("ESTADO DEL ROBOT" +
-                            "\n \t Modo: " + panel.getEstado() +
-                            "\n \t Altura: " + panel.getAltura() +
-                            " metros\n \t Largo pista: " + panel.getL_pista() +
-                            " metros \n \t Velocidad: " + panel.getVelocidad() +
-                            " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
+                if (panel.getAltura() > 0) {
+                    if (panel.getAltura() <= 21) {
+                        panel.setAltura(0);
+                        System.out.println("El avion ya esta en su altura minima de vuelo: " + panel.getAltura() + " metros.");break;
+                    } else {
+                        panel.setAltura(panel.getAltura() - 21);
+                        System.out.println("El avion ha bajado: " + panel.getAltura() + " metros." +
                             "-----------------------------------------------------------------------------------------");
-                    System.out.println("El avion disminuye su altura a " + panel.getAltura());
                     break;
-                } else System.out.println("El avion ya esta en su altura minima de vuelo");
-                break;
+
+                    }
+                }
 
             }
 
-            case "t":
-                if (panel.getVelocidad() <= 750) {
+            case "i": {
+                if (panel.getVelocidad() <= 650) {
                     panel.setVelocidad(panel.getVelocidad() + 100);
                     System.out.println("ESTADO DEL ROBOT" +
                             "\n \t Modo: " + panel.getEstado() +
@@ -486,133 +522,69 @@ public class Contenedor {
                             " metros \n \t Velocidad: " + panel.getVelocidad() +
                             " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
                             "-----------------------------------------------------------------------------------------");
-                    System.out.println("Velocidad" + panel.getVelocidad());
                     break;
                 } else System.out.println("Imposible  acelerar, ya ha alcanzado el maximo");
                 break;
+            }
 
-            case "g":
-                if (panel.getVelocidad() >= 100) {
-                    panel.setVelocidad(panel.getVelocidad() - 100);
-                    System.out.println("ESTADO DEL ROBOT" +
-                            "\n \t Modo: " + panel.getEstado() +
-                            "\n \t Altura: " + panel.getAltura() +
-                            " metros\n \t Largo pista: " + panel.getL_pista() +
-                            " metros \n \t Velocidad: " + panel.getVelocidad() +
-                            " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
+            case "k": {
+                if (panel.getVelocidad() > 0) {
+                    if (panel.getVelocidad() <= 100) {
+                        panel.setVelocidad(0);
+                        System.out.println("El avion ya esta en su velocidad minima de vuelo: " + panel.getVelocidad() + " km/h.");break;
+                    } else {
+                        panel.setVelocidad(panel.getVelocidad() - 100);
+                        System.out.println("El avion ha bajado su velocidad: " + panel.getVelocidad() + " km/h." +
                             "-----------------------------------------------------------------------------------------");
-                    System.out.println("Velocidad" + panel.getVelocidad());
                     break;
-                } else {
-                    System.out.println("Imposible  desacelerar, ya ha alcanzado el minimo");
-                    break;
-                }
 
-
-
-            case "h":{
-                if (((panel.getAltura() < 200) && (panel.getEstado().equals("Gerwalk"))) || ((panel.getAltura() < 200) && (panel.getEstado().equals("Fighter")))){
-                   setCambiar(2);
-                    System.out.println("ESTADO DEL ROBOT" +
-                            "\n \t Modo: " + panel.getEstado() +
-                            "\n \t Altura: " + panel.getAltura() +
-                            " metros\n \t Largo pista: " + panel.getL_pista() +
-                            " metros \n \t Velocidad: " + panel.getVelocidad() +
-                            " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
-                            "-----------------------------------------------------------------------------------------");
-                    return 2;
-                }
-                else{
-                    System.out.println("No cumple con los requerimientos basicos para cambiar de forma");break;
-                }
-            }
-
-            case "j":{
-                if ((panel.getAltura() == 0) && (panel.getEstado().equals("Battloid"))) {
-                    setCambiar(3);
-                    System.out.println("ESTADO DEL ROBOT" +
-                            "\n \t Modo: " + panel.getEstado() +
-                            "\n \t Altura: " + panel.getAltura() +
-                            " metros\n \t Largo pista: " + panel.getL_pista() +
-                            " metros \n \t Velocidad: " + panel.getVelocidad() +
-                            " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
-                            "-----------------------------------------------------------------------------------------");
-                    return 3;
-
-                }
-                else {
-                    System.out.println("No cumple con los requerimientos basicos para cambiar de forma");break;
+                    }
                 }
             }
 
 
-            case "f":{
-                if (panel.getEstado().equals("Gerwalk") && panel.getAltura()>0){
-                   setCambiar(1);
-                    System.out.println("ESTADO DEL ROBOT" +
-                            "\n \t Modo: " + panel.getEstado() +
-                            "\n \t Altura: " + panel.getAltura() +
-                            " metros\n \t Largo pista: " + panel.getL_pista() +
-                            " metros \n \t Velocidad: " + panel.getVelocidad() +
-                            " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
-                            "-----------------------------------------------------------------------------------------");break;
-                }
-                else {
-                    System.out.println("No cumple con los requerimientos basicos para cambiar de forma");break;
-                }
+            case "b": {
+                cambiar_Estado("b");break;
             }
-            case "u": {
-                if (a_der.getArmas().size() == 1)
-                 a_der.getArmas().set(0, disparar(a_der.getArmas().get(0)));break;
-
+            case "g": {
+                cambiar_Estado("g");break;
             }
-            case "i": {
-                if (a_der.getArmas().size() == 2 )
-                    a_der.getArmas().set(1, disparar(a_der.getArmas().get(1)));break;
-            }
-
-            case "o":{
-                if (a_izq.getArmas().size() == 1)
-                    a_izq.getArmas().set(0, disparar(a_izq.getArmas().get(0)));break;
-            }
-
-            case  "p":{
-                if (a_izq.getArmas().size() < 1)
-                    a_izq.getArmas().set(0, disparar(a_izq.getArmas().get(0)));break;
-
-            }
-
-
+            default: {
+                System.out.println("La tecla dictada no es valida.");
 
         }
-        return 1;
+
+
+    }
     }
 
     int avanzar = 5;
     int retroceder = 1;
-    Timer timerCorrer = new Timer(1500, new ActionListener() {
+    Timer timerCorrer = new Timer(1000, new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            if (estamina >=0){
+            if (estamina >=0 && !"x".equals(boton)){
                 System.out.println("Battloid corriendo...\nEstamina disponible: " + estamina+ " %");
                 estamina -= 10;
                 panel.setPos_robot(panel.getPos_robot()+10);
                 System.out.println("Avanzando 10 metros...distancia recorrida desde el hangar: " + panel.getPos_robot()+ " metros" +
                         "\n ------------------------------------------------------------------------------");
-
+                /*boton = scanner.nextLine();
+                if ("x".equals(boton)) {
+                    timerCorrer.stop();
+                    System.out.println("Ha detenido el modo correr. Ahora puede caminar...");
+                }*/
             }
+            if(estamina <= 0){
+                System.out.println("Battloid dice: 'Mi estamina esta baja...No puedo correr :'C'");
+            }
+
         }
     });
 
-    public int movimientosSuelo() {
-        //SOLO SE MUEVE HACIA ADELANTE
-        System.out.println("ESTADO DEL ROBOT" +
-                "\n \t Modo: " + panel.getEstado() +
-                "\n \t Altura: " + panel.getAltura() +
-                " metros\n \t Largo pista: " + panel.getL_pista() +
-                " metros \n \t Velocidad: " + panel.getVelocidad() +
-                " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
-                "-----------------------------------------------------------------------------------------");
+    public void movimientosSuelo() {
+
+        //armaBattloid(b_izq.getArma(),b_der.getArma());
         boton = scanner.nextLine();
 
         switch (boton) {
@@ -647,49 +619,246 @@ public class Contenedor {
                 System.out.println("-----------------------------------------------------------------------");
                 break;
             }
-            case "k": {//Modo correr
-                System.out.println("Modo correr activado");
+            case "k":{//Modo correr
+                System.out.println("MODO CORRER ACTIVADO!!!\n");
                 while (estamina > 0) {
-                    timerCorrer.start();
-                    if (estamina <= 0) {
-                        timerCorrer.stop();
-                    }
-                    if (estamina < 0) {
-                        System.out.println("Battloid no puede correr. Estamina baja.\n" +
-                                "Para recupar estamina camine");
-                    }
+                        timerCorrer.start();
                 }
-            } break;
-            case "p": {
-                if ((panel.getEstado().equals("Fighter")) || ((panel.getAltura() == 0) && (panel.getEstado().equals("Battloid")))) {
-                    setCambiar(3);
-                    System.out.println("ESTADO DEL ROBOT" +
-                            "\n \t Modo: " + panel.getEstado() +
-                            "\n \t Altura: " + panel.getAltura() +
-                            " metros\n \t Largo pista: " + panel.getL_pista() +
-                            " metros \n \t Velocidad: " + panel.getVelocidad() +
-                            " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
-                            "-----------------------------------------------------------------------------------------");
-                    return 3;
+                            timerCorrer.stop();
+                System.out.println("Battloid no puede correr...\n" +
+                        "Para recupar estamina camine");
+                break;
+            }
+            case "g":{
+                cambiar_Estado("g");break;
+            }
 
-                } else {
-                    System.out.println("No cumple con los requerimientos basicos para cambiar de forma");
+            case "f":{
+                System.out.println("No se puede pasar a modo fighter estando en Battloid.");break;
+            }
+
+            default: {
+                   System.out.println("ERROR al leer tecla ingresada, vuelva a presionar");
+                    System.out.println("-----------------------------------------------------------------------");
                     break;
                 }
             }
-                ////////////////////ARTURO: DESACTIVAR ARMAS!!!!!
 
+    }
 
-
-            default: {
-                System.out.println("ERROR al leer tecla ingresada, vuelva a presionar");
-                System.out.println("-----------------------------------------------------------------------");
-                break;
+    Timer caidaBattloid = new Timer(1000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            if(panel.getAltura() > 0){
+                panel.setAltura(panel.getAltura()-10);
+                System.out.println("Battloid cayendo...\nAltura:" + panel.setAltura(panel.getAltura()-10) + " metros");
             }
-        }return 2;
+        }
+    });
+
+
+
+
+    public void movimientosPajaros() {
+        if (panel.getAltura() == 0 ) {
+
+            System.out.println("GERWALK puede caminar");
+            panel.getEstado();
+            panel.setAltura(0);
+            boton = scanner.nextLine();
+            switch (boton) {
+                //Avanzar
+                case "r": {
+                    retroceder = -1;
+                    break;
+                }
+                case "d": { //PIERNA DERECHA
+                    if (p_der.isAvanzar()) {
+                        System.out.println("No puede avanzar/retroceder dos veces con la misma pierna");
+                    }
+                    if (!p_der.isAvanzar()) {
+                        System.out.println(retroceder * (5) + " metros con la pierna derecha");
+                        panel.setPos_robot(panel.getPos_robot() + avanzar * retroceder);
+                        p_der.setAvanzar(true);
+                        p_izq.setAvanzar(false);
+                    }
+                    System.out.println("ADVERTENCIA: para el siguiente paso recuerda que no puedes avanzar dos veces con la misma pierna");
+                    System.out.println("-----------------------------------------------------------------------");
+                    break;
+                }
+                case "a": { //PIERNA IZQUIERDA
+
+                    if (p_izq.isAvanzar()) {
+                        System.out.println("No puede avanzar dos veces con la misma pierna");
+                    }
+                    if (!p_izq.isAvanzar()) {
+                        System.out.println(retroceder * (5) + " metros con la pierna izquierda");
+                        panel.setPos_robot(panel.getPos_robot() + avanzar * retroceder);
+                        p_izq.setAvanzar(true);
+                        p_der.setAvanzar(false);
+                    }
+                    System.out.println("ADVERTENCIA: para el siguiente paso recuerda que no puedes avanzar dos veces con la misma pierna");
+                    System.out.println("-----------------------------------------------------------------------");
+                    break;
+                }
+                case "k": {//Modo correr
+                    System.out.println("MODO CORRER ACTIVADO!!!\n");
+                    while (estamina > 0) {
+                        timerCorrer.start();
+                    }
+                    timerCorrer.stop();
+                    System.out.println("Gerwalk no puede correr...\n" +
+                            "Para recupar estamina camine");
+                    break;
+                }
+                case "w": {
+                    if (panel.getAltura() < 190) {
+                        panel.setAltura(panel.getAltura() + 10);
+                        System.out.println("GERWALK ha subido: " + panel.getAltura() + " metros." +
+                                "-----------------------------------------------------------------------------------------");
+                        break;
+                    } else {
+                        System.out.println("Gerwalk ya esta en su altura maxima de vuelo");
+                        break;
+                    }
+                }
+                case "f": {
+                    cambiar_Estado("f");break;
+                }
+                default: {
+                    System.out.println("ERROR al leer tecla ingresada, vuelva a presionar");
+                    System.out.println("-----------------------------------------------------------------------");
+                    break;
+                }
+            }
+        }
+        else {
+            if(panel.getAltura()>200){
+                panel.setAltura(200);
+            }
+            panel.getEstado();
+            System.out.println("GERWALK puede volar.");
+
+            boton1 = scanner.nextLine();
+
+
+
+            switch (boton1) {
+
+
+                case "a": {
+                    System.out.println("GERWALK ha avanzado hacia la izquierda" +
+                            "-----------------------------------------------------------------------------------------");
+
+                }break;
+
+                case "d": {
+                    System.out.println("GERWALK ha avanzado hacia la derecha" +
+                            "-----------------------------------------------------------------------------------------");
+
+                }break;
+
+
+                case "w": {
+                    if (panel.getAltura() > 200) {
+                        panel.setAltura(200);
+                    }
+                    if (panel.getAltura() < 190) {
+                        panel.setAltura(panel.getAltura() + 10);
+                        System.out.println("GERWALK ha subido: " + panel.getAltura() + " metros." +
+                                "-----------------------------------------------------------------------------------------");
+
+                    } else {
+                        System.out.println("Gerwalk ya esta en su altura maxima de vuelo");
+                        break;
+                    }
+                }break;
+
+
+
+                case "s": {
+                    if (panel.getAltura() > 0) {
+                        if (panel.getAltura() <= 21) {
+                            panel.setAltura(0);
+                            System.out.println("Gerwalk ya esta en su altura minima de vuelo: " + panel.getAltura() + " metros.");
+                        } else {
+                            panel.setAltura(panel.getAltura() - 21);
+                            System.out.println("GERWALK ha bajado: " + panel.getAltura() + " metros." +
+                                    "-----------------------------------------------------------------------------------------");
+                            break;
+
+                        }
+                    }
+                }
+                break;
+
+
+                case "i": {
+                    if (panel.getVelocidad() <= 750) {
+                        panel.setVelocidad(panel.getVelocidad() + 100);
+                        System.out.println("GERWALK ha acelerado a: " + panel.getVelocidad() + " km/h." +
+                                "-----------------------------------------------------------------------------------------");
+
+                    } else {
+                        System.out.println("Imposible  acelerar, ya ha alcanzado el maximo");
+                        break;
+                    }
+                }break;
+
+                case "f": {
+                    cambiar_Estado("f");break;
+                }
+                case "b" :{
+                    cambiar_Estado("b");break;
+                }
+
+                case "k": {
+                    if (panel.getVelocidad() >= 100) {
+                        panel.setVelocidad(panel.getVelocidad() - 100);
+                        System.out.println("GERWALK ha desacelerado a: " + panel.getVelocidad() + "km/h" +
+                                "-----------------------------------------------------------------------------------------");
+
+                    } else {
+                        System.out.println("Imposible  desacelerar, ya ha alcanzado el minimo");
+                        break;
+                    }
+                }break;
+                default: {
+                    System.out.println("ERROR al leer tecla ingresada, vuelva a presionar");
+                    System.out.println("-----------------------------------------------------------------------");
+
+                }break;
+
+            }
+
+        }
 
     }
 
 
 
+
+
+    public int GuardarRobot(int c) {
+
+        if(panel.getAltura()==0 && panel.getEstado().equals("Fighter") && panel.getPos_robot()==0 && panel.getVelocidad()==0){
+
+            System.out.println("¿Desea guardar robot? s/n");
+
+            boton=scanner.nextLine();
+            if (boton.equals("s")){
+                c = 0;
+            }
+            if (boton.equals("n")){
+                c = 1;
+            }
+            else {
+                while (!boton.equals("s") && !boton.equals("n"))
+                System.out.println("La tecla ingresada no es valida, intente nuevamente.");
+                c=0;
+            }
+        }
+        return c;
+    }
 }
+
