@@ -44,14 +44,8 @@ public class Contenedor {
             }
             case("Gerwalk"):{
                 System.out.println("Para controlar modo Gerwalk utilice las siguientes teclas:");
-                System.out.println("**CUANDO SE ENCUENTRE EN TIERRA: **\n\t");
-                System.out.println("(A): Avanzar con pierna izquierda \n\t(D): Avanzar con pierna derecha \n\t(R): Retroceder \n\t(P): Disparar (P de pium)" +
-                        "\nPara retroceder debe presionar (R), enter y luego la tecla de la pierna con la cual desea retroceder\n"+
-                        "\nADVERTENCIA: NO puedes avanzar dos veces con la misma pierna\n");
-                System.out.println("**CUANDO SE ENCUENTRE VOLANDO: **\n\t");
-                System.out.println("\t(a) Giro derecha \n\t(d) Giro izquerda \n\t(w) Aumentar altura \n\t(s) Disminuye altura" +
-                        "\n\t(i) Acelerar \n\t(k) Desacelerar \n\t(P) Disparar");
 
+                System.out.println("____________________________________________________________________");
                 break;
             }
         }
@@ -504,7 +498,7 @@ public class Contenedor {
                 if (panel.getAltura() > 0) {
                     if (panel.getAltura() <= 21) {
                         panel.setAltura(0);
-                        System.out.println("El avion ya esta en su altura minima de vuelo: " + panel.getAltura() + " metros.");
+                        System.out.println("El avion ya esta en su altura minima de vuelo: " + panel.getAltura() + " metros.");break;
                     } else {
                         panel.setAltura(panel.getAltura() - 21);
                         System.out.println("El avion ha bajado: " + panel.getAltura() + " metros." +
@@ -532,12 +526,12 @@ public class Contenedor {
 
             case "k": {
                 if (panel.getVelocidad() > 0) {
-                    if (panel.getAltura() <= 100) {
-                        panel.setAltura(0);
-                        System.out.println("El avion ya esta en su altura minima de vuelo: " + panel.getAltura() + " metros.");
+                    if (panel.getVelocidad() <= 100) {
+                        panel.setVelocidad(0);
+                        System.out.println("El avion ya esta en su velocidad minima de vuelo: " + panel.getVelocidad() + " km/h.");break;
                     } else {
-                        panel.setAltura(panel.getAltura() - 100);
-                        System.out.println("El avion ha bajado: " + panel.getAltura() + " metros." +
+                        panel.setVelocidad(panel.getVelocidad() - 100);
+                        System.out.println("El avion ha bajado su velocidad: " + panel.getVelocidad() + " km/h." +
                             "-----------------------------------------------------------------------------------------");
                     break;
 
@@ -836,13 +830,12 @@ public class Contenedor {
 
         }
 
-    }*/
-    //}
+    }
+    //}*/
 ///*****************************************
     //kathie
 
-    /*public int GuardarRobot(int c){
-
+    public int GuardarRobot(int c) {
 
         if(panel.getAltura()==0 && panel.getEstado().equals("Fighter") && panel.getPos_robot()==0 && panel.getVelocidad()==0){
 
@@ -862,6 +855,6 @@ public class Contenedor {
             }
         }
         return c;
-    }*/
+    }
 }
 
