@@ -1,13 +1,13 @@
 public class Piernas {
 
-    boolean Mostrar_piernas;
-    boolean Avanzar;
-    boolean Retroceder;
+    private boolean Mostrar_piernas;
+    private boolean Avanzar;
 
-    public Piernas(boolean mostrar_piernas, boolean avanzar, boolean retroceder) {
+
+    public Piernas(boolean mostrar_piernas, boolean avanzar) {
         Mostrar_piernas = mostrar_piernas;
         Avanzar = avanzar;
-        Retroceder = retroceder;
+
     }
 
     public boolean isMostrar_piernas() {
@@ -26,11 +26,4 @@ public class Piernas {
         Avanzar = avanzar;
     }
 
-    public boolean isRetroceder() {
-        return Retroceder;
-    }
-
-    public void setRetroceder(boolean retroceder) {
-        Retroceder = retroceder;
-    }
 }

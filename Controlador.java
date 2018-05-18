@@ -5,15 +5,9 @@ public class Controlador {
 
 
 
-
     public void controlador(){
-
-
         Contenedor robot = new Contenedor(1);
-
-
-
-        robot.iniciarPista();
+        robot.menuPrincipal();
         robot.asignarArmas();
 
 
@@ -23,8 +17,7 @@ public class Controlador {
 
             robot.getEstado();
 
-
-            m = robot.setDespegarModoAvion(robot.panel.getVelocidad(), robot.panel.getAltura(), robot.panel.getL_pista());
+            m = robot.setDespegarModoAvion( robot.panel.getAltura());
             robot.condiciones_Despegar();
         }
 
@@ -38,6 +31,7 @@ public class Controlador {
 
             if (robot.panel.getEstado().equals("Fighter"))
             {
+                robot.setCambiar("Fighter");
                 do {
                     robot.getEstado();
                     robot.movimientosAire();
@@ -46,6 +40,7 @@ public class Controlador {
             }
             if (robot.panel.getEstado().equals("Battloid"))
             {
+                robot.setCambiar("Battloid");
                 do {
                     robot.getEstado();
                     robot.movimientosSuelo();
@@ -53,12 +48,13 @@ public class Controlador {
             }
 
             if (robot.panel.getEstado().equals("Gerwalk"))
-                {
-                    do {
+            {
+                robot.setCambiar("Gerwalk");
+                do {
                     robot.getEstado();
-                      //  robot.movimientosPajaros();
+                    robot.movimientosPajaros();
                 }while(robot.panel.getEstado().equals("Gerwalk"));
-                }
+            }
 
         }
 
@@ -70,7 +66,3 @@ public class Controlador {
 
 
 }
-
-
-
-
