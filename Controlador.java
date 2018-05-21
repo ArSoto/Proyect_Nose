@@ -6,7 +6,7 @@ public class Controlador {
 
 
 
-    public void controlador(){
+    public static void controlador(){
 
 
         Contenedor robot = new Contenedor(1);
@@ -56,16 +56,20 @@ public class Controlador {
                 {
                     do {
                     robot.getEstado();
-                    robot.movimientosPajaros();
+                      //  robot.movimientosPajaros();
                 }while(robot.panel.getEstado().equals("Gerwalk"));
             }
-
             c=robot.GuardarRobot(c);
 
         }
-        System.out.println("GAME OVER!");
+
 
     }
+
+
+
+
+
 }
 
 
