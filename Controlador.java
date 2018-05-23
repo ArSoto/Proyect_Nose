@@ -3,36 +3,17 @@ import java.util.Random;
 
 public class Controlador {
 
+    Contenedor robot = new Contenedor();
 
 
 
     public void controlador(){
 
-
-        Contenedor robot = new Contenedor(1);
-
-
-
-        robot.iniciarPista();
+        robot.menuPrincipal();
         robot.asignarArmas();
+        robot.panel.setEstado("Fighter");
 
 
-        int m=1;
-
-        while(m==1) {
-
-            robot.getEstado();
-
-
-            m = robot.setDespegarModoAvion(robot.panel.getVelocidad(), robot.panel.getAltura(), robot.panel.getL_pista());
-            robot.condiciones_Despegar();
-        }
-
-
-
-        robot.Despegar();
-        int c=1;
-        while(c==1) {
 
 
 
@@ -40,12 +21,19 @@ public class Controlador {
             {
                 do {
                     robot.getEstado();
-                    robot.movimientosAire();
+                    if (robot.panel.getAltura() == 0){
+                        robot.avionSuelo();
+                    }
+                    else {
+                        robot.movimientosAire();
+                    }
+
 
                 }while (robot.panel.getEstado().equals("Fighter"));
             }
             if (robot.panel.getEstado().equals("Battloid"))
             {
+
                 do {
                     robot.getEstado();
                     robot.movimientosSuelo();
@@ -53,23 +41,19 @@ public class Controlador {
             }
 
             if (robot.panel.getEstado().equals("Gerwalk"))
-                {
-                    do {
+            {
+
+                do {
                     robot.getEstado();
-                      //  robot.movimientosPajaros();
+                    robot.movimientosPajaros();
                 }while(robot.panel.getEstado().equals("Gerwalk"));
-                }
+            }
 
         }
 
 
     }
 
-
-
-
-
-}
 
 
 

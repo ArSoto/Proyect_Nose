@@ -10,6 +10,8 @@ public class Panel_de_Control {
     private int velocidad = 0;
     private int pos_robot = 0;
     private boolean pista = false;
+    private boolean caminando = false;
+    private  boolean armasActivar = true;
 
     //Constructor
     public Panel_de_Control(String estado,int altura) {
@@ -21,6 +23,10 @@ public class Panel_de_Control {
     //Setter
     public String setEstado(String estado) {
         return this.estado = estado;
+    }
+
+    public void setArmasActivar(boolean armasActivar) {
+        this.armasActivar = armasActivar;
     }
 
     public int setAltura(int altura) {
@@ -63,5 +69,8 @@ public class Panel_de_Control {
     public boolean getPista() {
         return pista;
     }
-}
 
+    public boolean isArmasActivar() {
+        return armasActivar;
+    }
+}
